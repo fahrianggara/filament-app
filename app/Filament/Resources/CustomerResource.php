@@ -24,7 +24,17 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
-
+                TextInput::make('name')
+                    ->label('Name')
+                    ->required(),
+                TextInput::make('email')
+                    ->label('Email')
+                    ->email()
+                    ->required(),
+                TextInput::make('phone')
+                    ->label('Phone'),
+                TextInput::make('address')
+                    ->label('Address'),
             ]);
     }
 
