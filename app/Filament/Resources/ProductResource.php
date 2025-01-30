@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,6 +39,17 @@ class ProductResource extends Resource
                     ->label('Price')
                     ->type('number')
                     ->required(),
+                TextInput::make('stock')
+                    ->label('Stock')
+                    ->type('number')
+                    ->required(),
+                Select::make('category_id')
+                    ->label('Category')
+                    ->options(
+                        Category::query()
+                            ->pluck('name', 'id')
+                            ->toArray(),
+                    )->required()->searchable(),
             ]);
     }
 
@@ -51,6 +64,11 @@ class ProductResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('price')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('stock')->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
                     ->searchable()
                     ->sortable(),
             ])
